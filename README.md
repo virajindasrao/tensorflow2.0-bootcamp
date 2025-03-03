@@ -1,5 +1,5 @@
-# tensorflow2.0-bootcamp - Regression with Custom Neural Network 
-Tensorflow 2.0 bootcamp - Build your own custom neural network.
+# tensorflow2.0-bootcamp - Predict daily bike rentals (Regression) based on weather data using Custom Neural Network (ANN).
+Tensorflow 2.0 bootcamp - This project leverages a custom multilayer Artificial Neural Network (ANN) to predict daily bike rentals based on weather data, incorporating data analysis, visualization, and performance evaluation to ensure accurate forecasting..
 
 
 ## Problem Statement
