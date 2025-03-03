@@ -29,11 +29,11 @@ Tensorflow 2.0 bootcamp - This project leverages a custom multilayer Artificial 
 * Testing dataset: 30%
 
 ## Perfornance Metrics
-* RSME
-* MSE
-* MAE 
-* R2
-* ADJ_R2
+* Root Mean Squared Error (RMSE)
+* Mean Squared Error (MSE)
+* Mean Absolute Error (MAE)
+* R-squared (R²)
+* Adjusted R-squared (Adjusted R²)
 
 ## Deploy requirements
 ```
