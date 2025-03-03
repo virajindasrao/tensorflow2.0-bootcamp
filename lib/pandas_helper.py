@@ -5,7 +5,7 @@ from sklearn.model_selection import train_test_split
 
 class pd_helper():
     def __init__(self, file_name) -> None:
-        self.file = r'C:\Users\viraj\Projects\tensorflow2.0-bootcamp\data/'+file_name
+        self.file = '../data/'+file_name
         self.obj = pd.read_csv(self.file)
 
     def get_data(self):
