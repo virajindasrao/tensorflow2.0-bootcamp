@@ -29,7 +29,6 @@ class plt_helper():
 
         plt.figure()
         sns.pairplot(data)
-        sns.heatmap(data.corr(), annot = annot)
         plt.show()
         plt.savefig('show_heatmap_plotter2.pdf')
 

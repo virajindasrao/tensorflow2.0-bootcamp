@@ -6,6 +6,8 @@ import matplotlib.pyplot as plt
 from sklearn.preprocessing import OneHotEncoder
 from sklearn.preprocessing import MinMaxScaler
 from sklearn.model_selection import train_test_split
+from sklearn.metrics import r2_score, mean_absolute_error, mean_squared_error
+from math import sqrt
 
 
 class tf_helper():
@@ -16,6 +18,7 @@ class tf_helper():
         self.y_train = None
         self.X_test = None
         self.y_test = None
+        self.scaler = None
 
     def build_and_train(self, model_name, config):
         self.model = tf.keras.models.Sequential()
@@ -44,8 +47,8 @@ class tf_helper():
         y = x_all.iloc[:,-1:].values
         print(x.shape)
         print(y.shape)
-        scaler = MinMaxScaler()
-        y = scaler.fit_transform(y)
+        self.scaler = MinMaxScaler()
+        y = self.scaler.fit_transform(y)
         self.X_train, self.X_test, self.y_train, self.y_test = train_test_split(x, y, test_size=0.2)
         print(self.X_train.shape, self.X_test.shape, self.y_train.shape, self.y_test.shape)
 
@@ -60,3 +63,22 @@ class tf_helper():
         plt.show()
         plt.savefig('evaluate_model.pdf')
 
+        y_predict_orig = self.scaler.inverse_transform(y_predict)
+        y_test_orig = self.scaler.inverse_transform(self.y_test)
+        plt.plot(y_test_orig, y_predict_orig, '^', color='blue')
+        plt.xlabel('Model prediction')
+        plt.ylabel('True values')
+        plt.show()
+
+        k = self.X_test.shape[1]
+        n = len(self.X_test)
+        rsme = float(format(np.sqrt(mean_squared_error(y_test_orig, y_predict_orig)), '0.3f'))
+        mse = mean_squared_error(y_test_orig, y_predict_orig)
+        mae = mean_absolute_error(y_test_orig, y_predict_orig)
+        r2 = r2_score(y_test_orig, y_predict_orig)
+        adj_r2 = 1 - (1 - r2)*(n-1)/(n-k-1)
+        print(f' rsme : {rsme}')
+        print(f' mse : {mse}')
+        print(f' mae : {mae}')
+        print(f' r2 : {r2}')
+        print(f' adj_r2 : {adj_r2}')
