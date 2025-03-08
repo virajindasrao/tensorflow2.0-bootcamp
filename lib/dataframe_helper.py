@@ -1,12 +1,13 @@
 import pandas as pd
-from sklearn.preprocessing import OneHotEncoder, MinMaxScaler
-from sklearn.model_selection import train_test_split
+import os
 
 
 class pd_helper():
-    def __init__(self, file_name) -> None:
-        self.file = '../data/'+file_name
-        self.obj = pd.read_csv(self.file)
+    def __init__(self, file_name, seperator=None) -> None:
+        relative_path = os.path.join("data", file_name)  # Refers to "data/file.txt" in the current directory
+        absolute_path = os.path.abspath(relative_path)    # Converts it to an absolute path
+        self.file = absolute_path
+        self.obj = pd.read_csv(self.file, sep=seperator)
 
     def get_data(self):
         return self.obj
