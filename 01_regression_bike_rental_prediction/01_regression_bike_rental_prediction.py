@@ -2,7 +2,7 @@
 to predict the affect of weather and weekdays on bike renting"""
 from lib.dataframe_helper import pd_helper
 from lib.graph_helper import plt_helper
-from lib.tensorflow_helper import tf_helper
+from lib.tensorflow_helper import TfModelHelper
 from sklearn.preprocessing import OneHotEncoder
 from sklearn.preprocessing import MinMaxScaler
 from sklearn.model_selection import train_test_split
@@ -19,7 +19,7 @@ class rental_bike():
         self.pd.show_details()
         # Initiate helper libraries
         self.plt = plt_helper()
-        self.tf_helper = tf_helper()
+        self.tf_helper = TfModelHelper()
         # Initiate class veriables
         self.x_numerical = None
         self.x_cat = None
@@ -61,8 +61,7 @@ class rental_bike():
         y = x_all.iloc[:, -1:].values
         self.tf_helper.scaler = MinMaxScaler()
         y = self.tf_helper.scaler.fit_transform(y)
-        self.tf_helper.X_train, self.tf_helper.X_test, self.tf_helper.y_train, self.tf_helper.y_test = 
-        train_test_split(x, y, test_size=0.2)
+        self.tf_helper.X_train, self.tf_helper.X_test, self.tf_helper.y_train, self.tf_helper.y_test = train_test_split(x, y, test_size=0.2)
 
     def visualize_model_predictoin(self):
         '''visualizes the model prediction using plt graph library'''
