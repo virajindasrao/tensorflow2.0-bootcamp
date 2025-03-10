@@ -45,10 +45,10 @@ class TfModelHelper():
         print(f'get_weights : {self.model.get_weights()}')
         self.model.compile(optimizer = optimizer, loss = loss, metrics = metrix)
         self.epoch_history = self.model.fit(
-            self.X_train, 
-            self.y_train, 
-            epochs = epochs, 
-            batch_size = batch_size, 
+            self.X_train,
+            self.y_train,
+            epochs = epochs,
+            batch_size = batch_size,
             validation_split = validation_split)
         self.model.save(model_name+'.keras')
 

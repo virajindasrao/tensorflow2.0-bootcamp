@@ -1,10 +1,11 @@
-"""script to test binary classification case with tensorflow 2.0 sequentical model with sentiment analysis of productions example"""
+"""script to test binary classification case with tensorflow 2.0 sequentical model
+with sentiment analysis of productions example"""
 import pandas as pd
 import matplotlib.pyplot as plt
 from sklearn.feature_extraction.text import CountVectorizer
 from sklearn.model_selection import train_test_split
-from lib.dataframe_helper import pd_helper
-from lib.graph_helper import plt_helper
+from lib.dataframe_helper import DataframHelper
+from lib.graph_helper import GraphHelper
 from lib.tensorflow_helper import TfModelHelper
 
 
@@ -13,11 +14,11 @@ class SentimentAnalysis():
     """class for sentiment analaysis"""
     def __init__(self) -> None:
         # pandas init and basic lib setup
-        self.pd = pd_helper('amazon_alexa.tsv', seperator='\t')
+        self.pd = DataframHelper('amazon_alexa.tsv', seperator='\t')
         # Show the data to cross verify at runtime
         self.pd.show_details()
         # Initiate helper libraries
-        self.plt = plt_helper()
+        self.graph = GraphHelper()
         self.tfh = TfModelHelper()
         #Initiate class veriables
         self.df = None
@@ -30,8 +31,8 @@ class SentimentAnalysis():
         df = self.pd.get_data()
         plt.figure()
         # Show feedback and rating variaations
-        self.plt.countplot(df, X='feedback')
-        self.plt.countplot(df, X='rating')
+        self.graph.countplot(df, X='feedback')
+        self.graph.countplot(df, X='rating')
 
     def cleanup_data(self):
         """data cleanup before passing it to the model for training and evaluation"""
@@ -41,8 +42,10 @@ class SentimentAnalysis():
         # Convert variation column data values into column and values as 0 and 1
         # This will help model to train and predict the sentiments more accurately
         self.variation_dummies = pd.get_dummies(self.df['variation'], drop_first= True, dtype=int)
-        # Drop variation column post row to column conversion as this will not be required for training
-        # Also it may affect the model prediction capability and deviate the actual model accuracy
+        # Drop variation column post row to column conversion 
+        # as this will not be required for training
+        # Also it may affect the model prediction capability 
+        # and deviate the actual model accuracy
         self.df.drop(['variation'], axis = 1, inplace=True)
         # Merge both variation row to column dataframe into main dataframe
         self.df = pd.concat([self.df, self.variation_dummies], axis=1)
@@ -92,28 +95,28 @@ class SentimentAnalysis():
     def visualize_model_evaluation(self):
         """visualize the model evaluation for better understanding"""
         # Show epoch loss history during training
-        self.plt.loss_history(
+        self.graph.loss_history(
             epochs=self.tfh.epoch_history,
             title='Model Loss Progress During Training',
             Xlabel='Epochs',
             ylabel='Training Loss'
             )
         # Show model accurary during training
-        self.plt.model_accuracy(
+        self.graph.model_accuracy(
             epochs=self.tfh.epoch_history,
             title='Model Accuracy During Training',
             Xlabel='Epochs',
             ylabel='Model Accuracy'
             )
         # Show confusion matrics of model accurary during training
-        self.plt.show_heatmap(
+        self.graph.show_heatmap(
             df=self.tfh.cm_loss,
             title='Confusion Matrics - Model Accuracy During Training',
             Xlabel='Actual Result',
             ylabel='Prediction'
             )
         # Show confusion matrics of model accurary during testing
-        self.plt.show_heatmap(
+        self.graph.show_heatmap(
             df=self.tfh.cm_accuracy,
             title='Confusion Matrics - Model Accuracy During Testing',
             Xlabel='Actual Result',

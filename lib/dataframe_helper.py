@@ -3,7 +3,7 @@ import os
 import pandas as pd
 
 
-class pd_helper():
+class DataframHelper():
     """helper class for dataframe operations"""
     def __init__(self, file_name, seperator=None) -> None:
         relative_path = os.path.join("data", file_name)  # Refers to "data/file.txt" in the current directory
@@ -46,10 +46,8 @@ class pd_helper():
         """change the format of date type column in dataframe"""
         col_data = self.obj.to_datetime(col_data, format = r'%m/%d/%Y')
         return col_data
-    
-    def set_index(self, index_col, type='datetimeindex'):
-        """change index of datafraome"""
-        if type == 'datetimeindex':
-            self.obj.index = pd.DatetimeIndex(index_col)
 
-        
+    def set_index(self, index_col, column_type='datetimeindex'):
+        """change index of datafraome"""
+        if column_type == 'datetimeindex':
+            self.obj.index = pd.DatetimeIndex(index_col)

@@ -3,7 +3,7 @@ import seaborn as sns
 import matplotlib.pyplot as plt
 
 
-class plt_helper():
+class GraphHelper():
     """helper class for graphical representation of model, data and evaluations of model"""
     def __init__(self, cmap = 'Blues') -> None:
         self.cmap = cmap
@@ -17,7 +17,7 @@ class plt_helper():
         plt.xlabel(xlabel)
         plt.ylabel(ylabel)
         plt.show()
-    
+
     def show_plotter(self, data, title, xlabel, ylabel):
         """helper function for plot graph"""
         print('show plotter')
@@ -84,5 +84,3 @@ class plt_helper():
         plt.ylabel(ylabel)
         plt.show()
         plt.close()
-
-        

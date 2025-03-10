@@ -1,24 +1,25 @@
 """Script to test regression usecase using tensorflow 2.0 sequential model
 to predict the affect of weather and weekdays on bike renting"""
-from lib.dataframe_helper import pd_helper
-from lib.graph_helper import plt_helper
-from lib.tensorflow_helper import TfModelHelper
 from sklearn.preprocessing import OneHotEncoder
 from sklearn.preprocessing import MinMaxScaler
 from sklearn.model_selection import train_test_split
-from math import sqrt
 import pandas as pd
+
+from lib.dataframe_helper import DataframHelper
+from lib.graph_helper import GraphHelper
+from lib.tensorflow_helper import TfModelHelper
 
 
 # Rental bike class declaration
 class rental_bike():
+    """Class helper for regression usecase with bike rental prediction"""
     def __init__(self) -> None:
         # pandas init and basic lib setup
-        self.pd = pd_helper('bike_sharing_daily.csv')
+        self.pd = DataframHelper('bike_sharing_daily.csv')
         # Show the data to cross verify at runtime
         self.pd.show_details()
         # Initiate helper libraries
-        self.plt = plt_helper()
+        self.graph = GraphHelper()
         self.tf_helper = TfModelHelper()
         # Initiate class veriables
         self.x_numerical = None
@@ -39,14 +40,16 @@ class rental_bike():
         self.pd.drop_column('dteday')
 
     def visualize_dataset(self):
+        """Function to show the dataframe details post loading"""
         self.pd.get_data_as_frequent('cnt', 'W', 3)
-        self.plt.show_plotter(data=self.pd.get_data(
+        self.graph.show_plotter(data=self.pd.get_data(
         ), title='Bike usage per week', xlabel='Week', ylabel='Bike Rental')
         self.x_numerical = self.pd.get_data_by_column(
             ['temp', 'hum', 'windspeed', 'cnt'])
-        self.plt.show_heatmap_plotter(self.x_numerical)
+        self.graph.show_heatmap_plotter(self.x_numerical)
 
     def create_training_testing_data(self):
+        """Create a testing dataframe"""
         self.x_cat = self.pd.get_data_by_column(
             ['season', 'yr', 'mnth', 'holiday',
                 'weekday', 'workingday', 'weathersit']
@@ -65,7 +68,7 @@ class rental_bike():
 
     def visualize_model_predictoin(self):
         '''visualizes the model prediction using plt graph library'''
-        self.plt.show_custom_plotter(
+        self.graph.show_custom_plotter(
             self.tf_helper.y_test_orig,
             self.tf_helper.y_predict_orig,
             title='Model prediction',
